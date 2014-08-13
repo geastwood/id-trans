@@ -1,33 +1,40 @@
 #!/usr/bin/env node
-console.log('this is the entry point for tr');
-/**
- * description
- * if there is no tr, rst[2] will be null
- */
+
+var baseUrl = __dirname;
+var currentFolder = process.cwd();
 var fs = require('fs');
-//var trReg = /define\((?:'|")(.+[^'])(?:'|")[\S\s]*tr:\s?{([\S\s]*?)},/;
-var trReg = /define\((?:'|")(.+[^'])(?:'|")(:?[\S\s]*tr:\s?{([\S\s]*?)},)?/;
-function getTrs(str) {
-    var rst;
+var parser = require(baseUrl + '/parser');
+var iterator = require(baseUrl + '/iterator');
+var generator = require(baseUrl + '/generator');
 
-    if (typeof str === 'undefined') {
-        return [];
-    }
-
-    var strArray = str.trim().split(/\n/).map(function(line) {
-        return line.trim().replace(/,$/, '');
-    });
-
-    console.log(typeof strArray);
-    return rst;
-}
+var timestamp = (+Date.now());
+var csvFileName = currentFolder + '/csv' + timestamp +'.csv';
+var phpFileName = currentFolder + '/php' + timestamp +'.js';
 /*
-fs.readFile('test.js', 'utf-8', function(err, data) {
-    var rst = trReg.exec(data);
-    getTrs(rst[2]);
-});
+console.log(__dirname);
 */
-fs.readFile('test1.js', 'utf-8', function(err, data) {
-    var rst = trReg.exec(data);
-    getTrs(rst[2]);
+console.log(process.cwd());
+iterator(currentFolder, function(err, file) {
+    console.log('processing', file);
+    if (err) {
+        throw err;
+    }
+    /*
+    fs.readFile(file, 'utf8', function(err, data) {
+        console.log('processing', file);
+        if (err) {
+            throw err;
+        }
+        var rst = parser.parse(file, data);
+        var php = generator(rst, 'php');
+        var csv = generator(rst, 'csv');
+        fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
+            if (err) {
+                throw err;
+            }
+        });
+        fs.writeFile(phpFileName, php, {encoding: 'utf8', flag: 'a'});
+    });
+*/
 });
+
