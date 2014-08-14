@@ -7,7 +7,7 @@ function getTrs(clsName, str) {
         return [];
     }
 
-    var strArray = str.trim().split(/\n/).map(function(line) {
+    return str.trim().split(/\n/).map(function(line) {
         return line.trim().replace(/,$/, '');
     }).map(function(line) {
         var parts = line.trim().split(':');
@@ -20,8 +20,6 @@ function getTrs(clsName, str) {
             translation: translation
         };
     });
-
-    return strArray;
 }
 function translateCls(str) {
     return str.replace(/\./g, '_');

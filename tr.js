@@ -10,16 +10,11 @@ var generator = require(baseUrl + '/generator');
 var timestamp = (+Date.now());
 var csvFileName = currentFolder + '/csv' + timestamp +'.csv';
 var phpFileName = currentFolder + '/php' + timestamp +'.js';
-/*
-console.log(__dirname);
-*/
-console.log(process.cwd());
 iterator(currentFolder, function(err, file) {
     console.log('processing', file);
     if (err) {
         throw err;
     }
-    /*
     fs.readFile(file, 'utf8', function(err, data) {
         console.log('processing', file);
         if (err) {
@@ -35,6 +30,5 @@ iterator(currentFolder, function(err, file) {
         });
         fs.writeFile(phpFileName, php, {encoding: 'utf8', flag: 'a'});
     });
-*/
 });
 
