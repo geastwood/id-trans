@@ -1,8 +1,5 @@
 'use strict';
-var pushWithPadding = function(str, indent) {
-    var padding = (indent) ? Array(indent * 4).join(' ') : '';
-    return padding + str;
-};
+var util = require('./util');
 var template = {
     csv: function(data) {
         var tpl = [];
@@ -16,19 +13,20 @@ var template = {
     php: function(data) {
         var tpl = ["IA.applyTranslations({"];
         var lines = data.php();
-        tpl.push(pushWithPadding('"' + data.data.clsName + '": {', 1));
+        tpl.push(util.pad('"' + data.data.clsName + '": {', 1));
         lines.forEach(function(line) {
             if (line) {
-                tpl.push(pushWithPadding(line, 2));
+                tpl.push(util.pad(line, 2));
             }
         });
-        tpl.push(pushWithPadding("}", 1));
+        tpl.push(util.pad("}", 1));
         tpl.push("});");
         return lines.length > 0 ? tpl : [];
     }
 };
 var generator = function(data, type) {
-    return template[type](data).join("\n");
+    var rst = template[type](data);
+    return (rst.length > 0) ? (rst.join("\n") + "\n") : '';
 };
 
 module.exports = generator;
