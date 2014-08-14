@@ -28,11 +28,9 @@ var dive = function (dir, fn) {
 
         list.forEach(function (file) {
             var path = dir + "/" + file;
-            console.log(dir, file);
             if (/^\./.test(path) === false) {
                 fs.stat(path, function (err, stat) {
                     if (stat && stat.isDirectory()) {
-                        console.log('fff');
                         dive(path, fn);
                     } else {
                         if (/\.js$/.test(path) === true) {

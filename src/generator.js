@@ -13,10 +13,10 @@ var template = {
     php: function(data) {
         var tpl = ["IA.applyTranslations({"];
         var lines = data.php();
-        tpl.push(util.pad('"' + data.data.clsName + '": {', 1));
-        lines.forEach(function(line) {
+        tpl.push(util.pad('"' + data.data.protoCls + '": {', 1));
+        lines.forEach(function(line, i) {
             if (line) {
-                tpl.push(util.pad(line, 2));
+                tpl.push(util.pad(line, 2) + (lines.length === i + 1 ? '' : ","));
             }
         });
         tpl.push(util.pad("}", 1));

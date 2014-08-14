@@ -1,0 +1,3 @@
+ - [x] fix bug of `prototype.tr`
+ - [ ] add debug mode
+

@@ -35,6 +35,7 @@ var parse = function(filename, content) {
         filename: filename,
         data: {
             clsName: clsName,
+            protoCls: clsName ? clsName + '.prototype.tr' : clsName,
             translatedClsName: translateCls(clsName),
             trs: getTrs(clsName, trs)
         },
