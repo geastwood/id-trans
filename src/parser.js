@@ -8,7 +8,7 @@ function getTrs(clsName, str) {
     }
 
     // solve case when string concat in translation
-    str = str.replace(/\'\s\+\n?\s*\'/g, '');
+    str = str.replace(/((?:'|")\s\+\n?\s*(?:'|"))/g, '');
 
     return str.trim().split(/\n/).map(function(line) {
         return line.trim().replace(/,$/, '');
