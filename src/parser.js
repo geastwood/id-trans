@@ -7,6 +7,9 @@ function getTrs(clsName, str) {
         return [];
     }
 
+    // solve case when string concat in translation
+    str = str.replace(/\'\s\+\n?\s*\'/g, '');
+
     return str.trim().split(/\n/).map(function(line) {
         return line.trim().replace(/,$/, '');
     }).map(function(line) {
@@ -30,6 +33,7 @@ var parse = function(filename, content) {
     var clsName = parts !== null ? parts[1].trim() : '';
     var trs = parts !== null ? parts[2] : [];
     var status = clsName && trs;
+
     return {
         status: status,
         filename: filename,
