@@ -53,7 +53,9 @@ var parse = function(filename, content) {
             var trs = this.data.trs;
             separator = separator || ';';
             return trs.map(function(tr) {
-                return tr.status && (tr.uniqueName + ';' + tr.translation);
+                return tr.status && (tr.uniqueName + ';' + tr.translation.replace(/(?:^'|'$)/g, '"').replace(/"/g, function(a, b, c) {
+                    return (b === 0 || b === c.length-1) ? '"' : '\\"';
+                }));
             });
         }
     };
