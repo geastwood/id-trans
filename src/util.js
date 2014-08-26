@@ -5,7 +5,7 @@
  */
 var pad = function(str, indent) {
     /* jshint newcap: false */
-    var padding = (indent) ? Array(indent * 4).join(' ') : '';
+    var padding = (indent) ? Array((indent * 4) + 1).join(' ') : '';
     return padding + str;
 };
 

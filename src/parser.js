@@ -42,7 +42,7 @@ var parse = function(filename, content) {
         php: function() {
             var trs = this.data.trs;
             return trs.map(function(tr) {
-                return tr.status && (tr.prop + ': \"<?php echo $this->jsTr(\'' + tr.uniqueName + '\'); ?>\"');
+                return tr.status && ('\'' + tr.prop + '\'' + ': \'<?php echo $this->jsTr(\"' + tr.uniqueName + '\"); ?>\'');
             });
         },
         csv: function(separator) {
