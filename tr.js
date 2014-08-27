@@ -6,8 +6,15 @@ var fs = require('fs');
 var parser = require(baseUrl + '/src/parser');
 var iterator = require(baseUrl + '/src/iterator');
 var generator = require(baseUrl + '/src/generator');
+var opts = {
+    debug: false
+};
 
-//var timestamp = (+Date.now());
+var program = require('commander');
+program.option('-d, --debug', 'use debug mode').parse(process.argv);
+if (program.debug) {
+    opts.debug = true;
+}
 
 var targetFolder = currentFolder + '/translations/';
 
@@ -29,7 +36,7 @@ iterator(currentFolder, function(err, file) {
         if (err) {
             throw err;
         }
-        var rst = parser.parse(file, data);
+        var rst = parser.parse(file, data, opts);
         var php = generator(rst, 'php');
         var csv = generator(rst, 'csv');
 
@@ -45,4 +52,3 @@ iterator(currentFolder, function(err, file) {
         });
     });
 });
-

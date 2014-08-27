@@ -1,7 +1,21 @@
 'use strict';
 
 var contentReg = /define\((?:'|")(.+[^'])(?:'|")(?:[\S\s]*tr:\s?{([\S\s]*?)},)?/;
-function getTrs(clsName, str) {
+
+function transformTr(str, opts) {
+
+    var debugStr = opts && opts.debug ? 'DE ' : '';
+
+    str = str.replace(/(?:^'|'$)/g, '"').replace(/"/g, function(a, b, c) {
+        return (b === 0 || b === (c.length - 1)) ? '"' : '\\"';
+    });
+
+    str = str.slice(0, 1) + debugStr + str.slice(1);
+
+    return str;
+}
+
+function getTrs(clsName, str, opts) {
 
     if (!str || !clsName) {
         return [];
@@ -20,14 +34,14 @@ function getTrs(clsName, str) {
             status: (prop.length > 0 && translation.length > 0),
             prop: prop,
             uniqueName: translateCls(clsName) + prop.replace(/^\w/, function(s) {return s.toUpperCase(); }),
-            translation: translation
+            translation: transformTr(translation, opts)
         };
     });
 }
 function translateCls(str) {
     return str.replace(/\./g, '_');
 }
-var parse = function(filename, content) {
+var parse = function(filename, content, opts) {
 
     var parts = contentReg.exec(content);
     var clsName = parts !== null ? parts[1].trim() : '';
@@ -41,7 +55,7 @@ var parse = function(filename, content) {
             clsName: clsName,
             protoCls: clsName ? clsName + '.prototype.tr' : clsName,
             translatedClsName: translateCls(clsName),
-            trs: getTrs(clsName, trs)
+            trs: getTrs(clsName, trs, opts)
         },
         php: function() {
             var trs = this.data.trs;
@@ -53,9 +67,7 @@ var parse = function(filename, content) {
             var trs = this.data.trs;
             separator = separator || ';';
             return trs.map(function(tr) {
-                return tr.status && (tr.uniqueName + ';' + tr.translation.replace(/(?:^'|'$)/g, '"').replace(/"/g, function(a, b, c) {
-                    return (b === 0 || b === (c.length - 1)) ? '"' : '\\"';
-                }));
+                return tr.status && (tr.uniqueName + ';' + tr.translation);
             });
         }
     };
