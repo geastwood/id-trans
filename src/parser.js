@@ -1,18 +1,13 @@
 'use strict';
-
+var util = require('./util');
 var contentReg = /define\((?:'|")(.+[^'])(?:'|")(?:[\S\s]*tr:\s?{([\S\s]*?)},)?/;
 
 function transformTr(str, opts) {
 
     var debugStr = opts && opts.debug ? 'DE ' : '';
+    str = util.string.escapeDoubleQuote(str);
 
-    str = str.replace(/(?:^'|'$)/g, '"').replace(/"/g, function(a, b, c) {
-        return (b === 0 || b === (c.length - 1)) ? '"' : '\\"';
-    });
-
-    str = str.slice(0, 1) + debugStr + str.slice(1);
-
-    return str;
+    return util.string.inject(str, debugStr);
 }
 
 function getTrs(clsName, str, opts) {
@@ -27,13 +22,14 @@ function getTrs(clsName, str, opts) {
     return str.trim().split(/\n/).map(function(line) {
         return line.trim().replace(/,$/, '');
     }).map(function(line) {
+        // TODO, refactor
         var parts = line.trim().split(':');
-        var prop = parts[0] && parts[0].trim();
-        var translation = parts[1] && parts[1].trim();
+        var prop = (parts[0] && parts[0].trim()) ? parts[0].trim() : '';
+        var translation = (parts[1] && parts[1].trim()) ? parts[1].trim() : '';
         return {
             status: (prop.length > 0 && translation.length > 0),
             prop: prop,
-            uniqueName: translateCls(clsName) + prop.replace(/^\w/, function(s) {return s.toUpperCase(); }),
+            uniqueName: translateCls(clsName) + util.string.capFirst(prop),
             translation: transformTr(translation, opts)
         };
     });
@@ -43,6 +39,7 @@ function translateCls(str) {
 }
 var parse = function(filename, content, opts) {
 
+    // TODO: refactor
     var parts = contentReg.exec(content);
     var clsName = parts !== null ? parts[1].trim() : '';
     var trs = parts !== null ? parts[2] : [];

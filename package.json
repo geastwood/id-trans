@@ -25,5 +25,10 @@
   "homepage": "https://github.com/geastwood/id-trans",
   "dependencies": {
     "commander": "^2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-watch": "^0.6.1"
   }
 }

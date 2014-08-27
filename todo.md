@@ -2,4 +2,5 @@
  - [x] handle string concat
  - [x] add debug mode
  - [ ] add tests
+ - [ ] empty line test
 
