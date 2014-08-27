@@ -54,7 +54,7 @@ var parse = function(filename, content) {
             separator = separator || ';';
             return trs.map(function(tr) {
                 return tr.status && (tr.uniqueName + ';' + tr.translation.replace(/(?:^'|'$)/g, '"').replace(/"/g, function(a, b, c) {
-                    return (b === 0 || b === c.length-1) ? '"' : '\\"';
+                    return (b === 0 || b === (c.length - 1)) ? '"' : '\\"';
                 }));
             });
         }
