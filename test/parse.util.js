@@ -14,7 +14,7 @@ exports.csv = function(test) {
         rst = parser.parse('', data);
 
         csv = generator(rst, 'csv');
-        console.log(csv);
+        //console.log(csv);
         test.ok(csv.length > 10);
         test.ok(/('|")User('|")/.test(csv) === true);
         test.ok(/\\"data-qtip='\{0\}'\\"/.test(csv) === true);
@@ -32,7 +32,18 @@ exports.quote = function(test) {
 
         rst = parser.parse('', data);
         csv = generator(rst, 'csv');
-        console.log(csv);
+        //console.log(csv);
+        test.done();
+    });
+};
+
+exports.concat = function(test) {
+    var csv;
+    fs.readFile(__dirname + '/data/test1.js', 'utf8', function(err, data) {
+        if (err) { throw err; }
+        csv = generator(parser.parse('', data), 'csv');
+        test.ok(/second\sstring/.test(csv));
+        test.ok(/second\sstring1/.test(csv));
         test.done();
     });
 };

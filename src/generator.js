@@ -2,6 +2,7 @@
 
 var util = require('./util'),
 
+// Factory
 template = {
     csv: function(data) {
         var tpl = [];

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 var baseUrl = __dirname,
     currentFolder = process.cwd(),
     fs = require('fs'),
