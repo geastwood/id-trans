@@ -1,20 +1,8 @@
 'use strict';
-var fs = require("fs");
-
-function toCheck(path) {
-    var rules = [function(path) {
-        return /^\./.test(path) === false;
-    }, function(path) {
-        return /\.js$/.test(path) === true;
-    }];
-
-    return rules.every(function(rule) {
-        return rule(path);
-    });
-}
+var fs = require("fs"),
 
 // General function
-var dive = function (dir, fn) {
+dive = function (dir, fn) {
     // Assert that it's a function
     if (typeof fn !== "function") {
         throw 'no callback specified';

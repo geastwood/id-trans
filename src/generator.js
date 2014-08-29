@@ -1,6 +1,8 @@
 'use strict';
-var util = require('./util');
-var template = {
+
+var util = require('./util'),
+
+template = {
     csv: function(data) {
         var tpl = [];
         data.csv().forEach(function(line) {
@@ -11,8 +13,8 @@ var template = {
         return tpl;
     },
     php: function(data) {
-        var tpl = ["IA.applyTranslations({"];
-        var lines = data.php();
+        var tpl = ["IA.applyTranslations({"],
+            lines = data.php();
         tpl.push(util.pad('"' + data.data.protoCls + '": {', 1));
         lines.forEach(function(line, i) {
             if (line) {
@@ -23,8 +25,9 @@ var template = {
         tpl.push("});");
         return lines.length > 0 ? tpl : [];
     }
-};
-var generator = function(data, type) {
+},
+
+generator = function(data, type) {
     var rst = template[type](data);
     return (rst.length > 0) ? (rst.join("\n") + "\n") : '';
 };

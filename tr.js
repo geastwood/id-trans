@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
-var baseUrl = __dirname;
-var currentFolder = process.cwd();
-var fs = require('fs');
-var parser = require(baseUrl + '/src/parser');
-var iterator = require(baseUrl + '/src/iterator');
-var generator = require(baseUrl + '/src/generator');
-var opts = {
-    debug: false
-};
+var baseUrl = __dirname,
+    currentFolder = process.cwd(),
+    fs = require('fs'),
+    parser = require(baseUrl + '/src/parser'),
+    iterator = require(baseUrl + '/src/iterator'),
+    generator = require(baseUrl + '/src/generator'),
+    opts = {
+        debug: false
+    };
 
+// jscs:disable
 var program = require('commander');
 program.option('-d, --debug', 'use debug mode').parse(process.argv);
 if (program.debug) {
@@ -36,9 +37,9 @@ iterator(currentFolder, function(err, file) {
         if (err) {
             throw err;
         }
-        var rst = parser.parse(file, data, opts);
-        var php = generator(rst, 'php');
-        var csv = generator(rst, 'csv');
+        var rst = parser.parse(file, data, opts),
+            php = generator(rst, 'php'),
+            csv = generator(rst, 'csv');
 
         fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
             if (err) {

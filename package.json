@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/geastwood/id-trans",
   "dependencies": {
-    "commander": "^2.3.0"
+    "commander": "^2.3.0",
+    "jsesc": "^0.5.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
