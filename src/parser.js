@@ -1,13 +1,7 @@
 'use strict';
 
 var util = require('./util'),
-    jsesc = require('jsesc'),
     targetRegex = /define\((?:'|")(.+[^'])(?:'|")(?:[\S\s]*tr:\s?{([\S\s]*?)},)?/;
-
-function transformTr(str, opts) {
-    var debugStr = opts && opts.debug ? 'DE ' : '';
-    return util.string.inject(str, debugStr);
-}
 
 // TODO consider renaming the function
 function defaults(line) {
@@ -19,10 +13,7 @@ function defaults(line) {
 
 function getTrs(str, opts) {
 
-    // TODO: remove checking from here
-    if (!str) {
-        return [];
-    }
+    var debugStr = opts && opts.debug ? 'DE ' : '';
 
     // solve case when string concat in translation
     str = str.replace(/((?:'|")\s\+\n?\s*(?:'|"))/g, '');
@@ -33,10 +24,11 @@ function getTrs(str, opts) {
         var parts = defaults(line),
             prop = parts(0),
             translation = parts(1);
+
         return {
             status: (prop.length > 0 && translation.length > 0),
             prop: prop,
-            translation: transformTr(translation, opts)
+            translation: util.string.inject(translation, debugStr)
         };
     });
 }
@@ -45,8 +37,7 @@ var parse = function(filename, content, opts) {
 
     var parts = targetRegex.exec(content),
         clsName = parts !== null ? parts[1].trim() : '',
-        trs = parts !== null ? parts[2] : '',
-        // status flag only `true` when there is a `class name` and `translation`
+        trs = (parts !== null && parts[2]) ? parts[2] : '',
         status = (clsName && clsName.length > 0) && (trs && trs.length > 0);
 
     return {
