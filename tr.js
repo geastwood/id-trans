@@ -36,9 +36,10 @@ iterator(currentFolder, function(err, file) {
         if (err) {
             throw err;
         }
-        var rst = parser.parse(file, data, opts),
-            php = generator(rst, 'php'),
-            csv = generator(rst, 'csv');
+        var rst = parser.parse(file, data, opts);
+        var php = generator(rst, 'php');
+        var csv = generator(rst, 'csv');
+        //console.log(csv);
 
         fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
             if (err) {

@@ -4,7 +4,7 @@ Ext.define("IA.pixelcarrier.view.grid.Log", {
     tr: {
         testTrans1: 'start end with single',
         testTrans2: 'start end with single "double insight"',
-        testTrans3: "start end with double \"escaped double insight\"",
+        testTrans3: 'start end with double "escaped double insight"',
         testTrans4: 'string concat' + ' second string',
 
 
