@@ -5,7 +5,8 @@ var baseUrl = __dirname,
     iterator = require(baseUrl + '/src/iterator'),
     writer = require(baseUrl + '/src/writer'),
     opts = {
-        debug: false
+        debug: false,
+        print: false
     };
 
 var program = require('commander');
@@ -17,6 +18,9 @@ program
 
 if (program.debug) {
     opts.debug = true;
+}
+if (program.print) {
+    opts.print = true;
 }
 
 iterator(currentFolder, function(err, file) {

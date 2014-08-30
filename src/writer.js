@@ -4,13 +4,13 @@ var fs = require('fs'),
     baseUrl = __dirname,
     currentFolder = process.cwd(),
     parser = require(baseUrl + '/parser'),
-    generator = require(baseUrl + '/generator');
+    generator = require(baseUrl + '/generator'),
 
-var targetFolder = currentFolder/* + '/translations/'*/;
-var csvFileName = targetFolder + '/de_DE.csv';
-var phpFileName = targetFolder + '/i18n.js';
+    targetFolder = currentFolder/* + '/translations/'*/,
+    csvFileName = targetFolder + '/de_DE.csv',
+    phpFileName = targetFolder + '/i18n.js',
 
-var writer = function(files, opts) {
+writer = function(files, opts) {
     return {
         config: function() {},
         write: function() {
@@ -28,16 +28,23 @@ var writer = function(files, opts) {
                         php = generator(rst, 'php'),
                         csv = generator(rst, 'csv');
 
-                    fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
-                        if (err) {
-                            throw err;
-                        }
-                    });
-                    fs.writeFile(phpFileName, php, {encoding: 'utf8', flag: 'a'}, function(err) {
-                        if (err) {
-                            throw err;
-                        }
-                    });
+                    if (opts.print === true) {
+                        console.log('PHP content:');
+                        console.log(php);
+                        console.log('CSV content:');
+                        console.log(csv);
+                    } else {
+                        fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
+                            if (err) {
+                                throw err;
+                            }
+                        });
+                        fs.writeFile(phpFileName, php, {encoding: 'utf8', flag: 'a'}, function(err) {
+                            if (err) {
+                                throw err;
+                            }
+                        });
+                    }
                 });
             });
         }
