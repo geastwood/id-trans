@@ -10,42 +10,39 @@ var fs = require('fs'),
     csvFileName = targetFolder + '/de_DE.csv',
     phpFileName = targetFolder + '/i18n.js',
 
-writer = function(files, opts) {
+writer = function(file, opts) {
     return {
         config: function() {},
         write: function() {
 
-            files.forEach(function(file) {
+            // get a file list
+            fs.readFile(file, 'utf8', function(err, data) {
+                console.log('processing', file);
+                if (err) {
+                    throw err;
+                }
 
-                // get a file list
-                fs.readFile(file, 'utf8', function(err, data) {
-                    console.log('processing', file);
-                    if (err) {
-                        throw err;
-                    }
+                var rst = parser.parse(file, data, opts),
+                    php = generator(rst, 'php'),
+                    csv = generator(rst, 'csv');
 
-                    var rst = parser.parse(file, data, opts),
-                        php = generator(rst, 'php'),
-                        csv = generator(rst, 'csv');
-
-                    if (opts.print === true) {
-                        console.log('PHP content:');
-                        console.log(php);
-                        console.log('CSV content:');
-                        console.log(csv);
-                    } else {
-                        fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
-                            if (err) {
-                                throw err;
-                            }
-                        });
-                        fs.writeFile(phpFileName, php, {encoding: 'utf8', flag: 'a'}, function(err) {
-                            if (err) {
-                                throw err;
-                            }
-                        });
-                    }
-                });
+                if (opts.print === true) {
+                    console.log('PHP content:');
+                    console.log(php);
+                    console.log('CSV content:');
+                    console.log(csv);
+                } else {
+                    fs.writeFile(csvFileName, csv, {encoding: 'utf8', flag: 'a'}, function(err) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                    fs.writeFile(phpFileName, php, {encoding: 'utf8', flag: 'a'}, function(err) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
+                }
             });
         }
     };

@@ -3,6 +3,7 @@
  - [x] add debug mode
  - [x] add tests
  - [x] empty line test
+ - [x] add option to print output
  - [ ] add to clipboard option (for mac)
- - [ ] add per file option
+ - [x] add per file option
 
