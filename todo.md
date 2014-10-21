@@ -6,4 +6,4 @@
  - [x] add option to print output
  - [ ] add to clipboard option (for mac)
  - [x] add per file option
-
+ - [ ] add translation diff option

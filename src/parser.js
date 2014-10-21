@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('./util'),
-    targetRegex = /define\((?:'|")(.+[^'])(?:'|")(?:[\S\s]*tr:\s?{([\S\s]*?)},)?/;
+    targetRegex = /define\((?:'|")(.+[^'])(?:'|")(?:[\S\s]*tr\s?(?::|=)\s?{([\S\s]*?)},)?/;
 
 // TODO consider renaming the function
 function defaults(line) {
